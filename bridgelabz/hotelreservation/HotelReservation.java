@@ -6,13 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
 public class HotelReservation {
 private List<Hotel> hotelList = new ArrayList<Hotel>();
 	
 	/**
 	 * @param hotelName
-	 * @param weekdayRegularCustRate, int weekendRegularCustRate
-	 * @return true if hotel is added
+	 * @param weekdayRegularCustRate, weekendRegularCustRate
+	 * @return true hotel added
 	 */
 	public boolean addHotel(String hotelName, int weekdayRegularCustRate,int weekendRegularCustRate) {
 		Hotel hotel = new Hotel(hotelName,weekdayRegularCustRate,weekendRegularCustRate);
@@ -23,28 +24,50 @@ private List<Hotel> hotelList = new ArrayList<Hotel>();
 	/**
 	 * @param start
 	 * @param end
-	 * @return Cheapest hotel (UC2)
+	 * @return Cheapest hotel
 	 */
-	public Hotel findCheapestHotel(String start, String end) {
+	public Hotel findCheapestHotel(String startD, String endD) {
 		Date startDate=null;
         Date endDate = null;
         try {
-			startDate = new SimpleDateFormat("dd-MMM-yyyy").parse(start);
-			endDate = new SimpleDateFormat("dd-MMM-yyyy").parse(end); 
+			startDate = new SimpleDateFormat("dd-MMM-yyyy").parse(startD);
+			endDate = new SimpleDateFormat("dd-MMM-yyyy").parse(endD); 
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 		}
         long noOfDays = 1+(endDate.getTime()- startDate.getTime())/1000/60/60/24;
         
-        Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getWeekdayRegularCustRate)).findFirst().orElse(null);
-        long totalRate = noOfDays*cheapestHotel.getWeekdayRegularCustRate();
-        cheapestHotel.setTotalRate(totalRate);
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);        
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+        long noOfWeekdays = 0;
+        if (startCal.getTimeInMillis() > endCal.getTimeInMillis()) {
+            startCal.setTime(endDate);
+            endCal.setTime(startDate);
+            
+        }
+        do {
+            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                ++noOfWeekdays;
+            }
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
+        } while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()); 
+        
+        long noOfWeekends = noOfDays - noOfWeekdays;
+        System.out.println("Weekends "+ noOfWeekends +"Weekdays "+noOfWeekdays);
+        
+        for(Hotel hotel: hotelList) {
+        	long totalRate = noOfWeekdays*hotel.getWeekdayRegularCustRate()+noOfWeekends*hotel.getWeekendRegularCustRate();
+        	hotel.setTotalRate(totalRate);
+        }
+        Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate)).findFirst().orElse(null);
         
 		return cheapestHotel;
 	}
 	
     /**
-     * UC3
      * @param args
      */
     public static void main( String[] args )
@@ -52,11 +75,13 @@ private List<Hotel> hotelList = new ArrayList<Hotel>();
     	Scanner sc = new Scanner(System.in);
     	HotelReservation hotelReservation = new HotelReservation();
     	sc.close();
+    	
         System.out.println( "Welcome to Hotel Reservation System Program" );
         
         hotelReservation.addHotel("Lakewood", 110, 90);
         hotelReservation.addHotel("Bridgewood", 160, 60);
         hotelReservation.addHotel("Ridgewood", 220, 150);
+        //UC4
         
         System.out.println("Do you want to add a Hotel?(Y/N)");
         char choice = sc.nextLine().charAt(0);
