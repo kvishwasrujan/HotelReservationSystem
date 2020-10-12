@@ -10,13 +10,16 @@ import java.util.Calendar;
 public class HotelReservation {
 private List<Hotel> hotelList = new ArrayList<Hotel>();
 	
+	
 	/**
 	 * @param hotelName
-	 * @param weekdayRegularCustRate, weekendRegularCustRate
-	 * @return true hotel added
+	 * @param weekdayRegularCustRate
+	 * @param weekendRegularCustRate
+	 * @param rating
+	 * @return
 	 */
-	public boolean addHotel(String hotelName, int weekdayRegularCustRate,int weekendRegularCustRate) {
-		Hotel hotel = new Hotel(hotelName,weekdayRegularCustRate,weekendRegularCustRate);
+	public boolean addHotel(String hotelName, int weekdayRegularCustRate,int weekendRegularCustRate,int rating) {
+		Hotel hotel = new Hotel(hotelName,weekdayRegularCustRate,weekendRegularCustRate,rating);
 		hotelList.add(hotel);
 		return true;
 	}
@@ -43,11 +46,8 @@ private List<Hotel> hotelList = new ArrayList<Hotel>();
         Calendar endCal = Calendar.getInstance();
         endCal.setTime(endDate);
         long noOfWeekdays = 0;
-        if (startCal.getTimeInMillis() > endCal.getTimeInMillis()) {
-            startCal.setTime(endDate);
-            endCal.setTime(startDate);
-            
-        }
+        if (startCal.getTimeInMillis() < endCal.getTimeInMillis()) {
+        
         do {
             if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
                 ++noOfWeekdays;
@@ -65,9 +65,13 @@ private List<Hotel> hotelList = new ArrayList<Hotel>();
         Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate)).findFirst().orElse(null);
         
 		return cheapestHotel;
+        }
+        else 
+        	return null;
 	}
 	
     /**
+     * UC5
      * @param args
      */
     public static void main( String[] args )
@@ -78,10 +82,10 @@ private List<Hotel> hotelList = new ArrayList<Hotel>();
     	
         System.out.println( "Welcome to Hotel Reservation System Program" );
         
-        hotelReservation.addHotel("Lakewood", 110, 90);
-        hotelReservation.addHotel("Bridgewood", 160, 60);
-        hotelReservation.addHotel("Ridgewood", 220, 150);
-        //UC4
+        hotelReservation.addHotel("Lakewood", 110, 90, 3);
+        hotelReservation.addHotel("Bridgewood", 160, 60, 4);
+        hotelReservation.addHotel("Ridgewood", 220, 150, 5);
+        //UC5 Init
         
         System.out.println("Do you want to add a Hotel?(Y/N)");
         char choice = sc.nextLine().charAt(0);
@@ -92,7 +96,9 @@ private List<Hotel> hotelList = new ArrayList<Hotel>();
 	        int weekdayRegularCustRate = Integer.parseInt(sc.nextLine());
 	        System.out.println("Enter weekend regular customer rate:");
 	        int weekendRegularCustRate = Integer.parseInt(sc.nextLine());
-	        hotelReservation.addHotel(hotelName,weekdayRegularCustRate,weekendRegularCustRate);
+	        System.out.println("Enter Rating");
+	        int rating = Integer.parseInt(sc.nextLine());
+	        hotelReservation.addHotel(hotelName,weekdayRegularCustRate,weekendRegularCustRate,rating);
 	        System.out.println("Do you want to add another Hotel?(Y/N)");
 	        choice = sc.nextLine().charAt(0);
         }
@@ -103,6 +109,9 @@ private List<Hotel> hotelList = new ArrayList<Hotel>();
         System.out.println("Enter end date");
         String end = sc.nextLine();
         Hotel cheapestHotel = hotelReservation.findCheapestHotel(start,end);
-        System.out.println(cheapestHotel.getHotelName()+", Total rates :$"+cheapestHotel.getTotalRate());
+        if(cheapestHotel!=null)
+        	System.out.println(cheapestHotel.getHotelName()+", Total rates :$"+cheapestHotel.getTotalRate());
+        else 
+        	System.out.println("Improper dates");
     }
 }
