@@ -5,6 +5,8 @@ public class Hotel {
 	private String hotelName;
 	private int weekdayRegularCustRate;
 	private int weekendRegularCustRate;
+	private int weekdayRewardCustRate;
+	private int weekendRewardCustRate;
 	private long totalRate;
 	private int rating;
 
@@ -13,16 +15,26 @@ public class Hotel {
 	 * @param weekdayRegularCustRate
 	 * @param weekendRegularCustRate
 	 * @param rating
+	 * @param weekdayRewardCustRate
+	 * @param weekendRewardCustRate
 	 */
-	public Hotel(String hotelName, int weekdayRegularCustRate, int weekendRegularCustRate, int rating) {
+	public Hotel(String hotelName, int weekdayRegularCustRate, int weekendRegularCustRate, int rating,
+			int weekdayRewardCustRate, int weekendRewardCustRate) {
 		this.hotelName = hotelName;
 		this.weekdayRegularCustRate = weekdayRegularCustRate;
 		this.weekendRegularCustRate = weekendRegularCustRate;
 		this.rating = rating;
+		this.weekdayRewardCustRate = weekdayRewardCustRate;
+		this.weekendRewardCustRate = weekendRewardCustRate;
 	}
 
 	public String getHotelName() {
 		return hotelName;
+	}
+
+	@Override
+	public String toString() {
+		return "Hotel Name - " + hotelName;
 	}
 
 	public void setHotelName(String hotelName) {
@@ -48,10 +60,6 @@ public class Hotel {
 	public long getTotalRate() {
 		return totalRate;
 	}
-	@Override
-	public String toString() {
-		return "Hotel Name - "+ hotelName;
-	}
 
 	public void setTotalRate(long totalRate) {
 		this.totalRate = totalRate;
@@ -63,6 +71,22 @@ public class Hotel {
 
 	public void setRating(int rating) {
 		this.rating = rating;
+	}
+
+	public int getWeekdayRewardCustRate() {
+		return weekdayRewardCustRate;
+	}
+
+	public void setWeekdayRewardCustRate(int weekdayRewardCustRate) {
+		this.weekdayRewardCustRate = weekdayRewardCustRate;
+	}
+
+	public int getWeekendRewardCustRate() {
+		return weekendRewardCustRate;
+	}
+
+	public void setWeekendRewardCustRate(int weekendRewardCustRate) {
+		this.weekendRewardCustRate = weekendRewardCustRate;
 	}
 
 }
