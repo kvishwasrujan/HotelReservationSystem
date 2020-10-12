@@ -1,18 +1,23 @@
 package com.bridgelabz.hotelreservation;
 
+
 public class Hotel {
+	//variables
 	private String hotelName;
-	private int regularCustRate;
+	private int weekdayRegularCustRate;
+	private int weekendRegularCustRate;
 	private long totalRate;
 
 	/**
-	 * UC2
+	 * UC3
 	 * @param hotelName
-	 * @param regularCustRate
+	 * @param weekdayRegularCustRate
+	 * @param weekendRegularCustRate
 	 */
-	public Hotel(String hotelName, int regularCustRate) {
+	public Hotel(String hotelName, int weekdayRegularCustRate, int weekendRegularCustRate) {
 		this.hotelName = hotelName;
-		this.regularCustRate = regularCustRate;
+		this.weekdayRegularCustRate = weekdayRegularCustRate;
+		this.weekendRegularCustRate = weekendRegularCustRate;
 	}
 
 	public String getHotelName() {
@@ -23,12 +28,20 @@ public class Hotel {
 		this.hotelName = hotelName;
 	}
 
-	public int getRegularCustRate() {
-		return regularCustRate;
+	public int getWeekdayRegularCustRate() {
+		return weekdayRegularCustRate;
 	}
 
-	public void setRegularCustRate(int regularCustRate) {
-		this.regularCustRate = regularCustRate;
+	public void setWeekdayRegularCustRate(int weekdayRegularCustRate) {
+		this.weekdayRegularCustRate = weekdayRegularCustRate;
+	}
+
+	public int getWeekendRegularCustRate() {
+		return weekendRegularCustRate;
+	}
+
+	public void setWeekendRegularCustRate(int weekendRegularCustRate) {
+		this.weekendRegularCustRate = weekendRegularCustRate;
 	}
 
 	public long getTotalRate() {
