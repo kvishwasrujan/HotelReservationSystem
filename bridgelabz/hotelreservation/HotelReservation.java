@@ -16,7 +16,7 @@ public class HotelReservation {
 	/**
 	 * @param hotelName
 	 * @param weekdayRegularCustRate, weekendRegularCustRate
-	 * @return true if hotel added
+	 * @return true if hotel is added
 	 */
 	public boolean addHotel(String hotelName, int weekdayRegularCustRate, int weekendRegularCustRate, int rating,
 			int weekdayRewardCustRate, int weekendRewardCustRate) {
@@ -42,7 +42,6 @@ public class HotelReservation {
 	/**
 	 * @param startD
 	 * @param endD
-	 * @return noOfDays between start and end date
 	 */
 	public long getNoOfDays(String startD, String endD) {
 		Date startDate = null;
@@ -59,7 +58,6 @@ public class HotelReservation {
 	/**
 	 * @param startD
 	 * @param endD
-	 * @return noOfWeekdays between start and end date
 	 */
 	public long getNoOfWeekdays(String startD, String endD) {
 		Date startDate = null;
@@ -182,7 +180,8 @@ public class HotelReservation {
 		hotelReservation.addHotel("Lakewood", 110, 90, 3, 80, 80);
 		hotelReservation.addHotel("Bridgewood", 160, 60, 4, 110, 50);
 		hotelReservation.addHotel("Ridgewood", 220, 150, 5, 100, 40);
-        //Choose        
+		// initialize
+
 		System.out.println("Do you want to add a Hotel?(Y/N)");
 		char addChoice = sc.nextLine().charAt(0);
 		while (addChoice == 'Y') {
