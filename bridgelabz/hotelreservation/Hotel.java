@@ -48,6 +48,10 @@ public class Hotel {
 	public long getTotalRate() {
 		return totalRate;
 	}
+	@Override
+	public String toString() {
+		return "Hotel Name - "+ hotelName;
+	}
 
 	public void setTotalRate(long totalRate) {
 		this.totalRate = totalRate;
